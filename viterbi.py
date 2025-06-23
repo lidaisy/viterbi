@@ -7,7 +7,7 @@ def viterbi(Ps0, transition, emission, time_steps, values, observed):
 
     # base case
     for j in range(values):
-        pi[0,j] = (Ps0 * j + (1 - Ps0) * (1 - j)) * emission[j, observed[0]]
+        pi[0,j] = Ps0[j] * emission[j, observed[0]]
 
     # Using dynamic programming
     for k in range(1, time_steps):
@@ -24,11 +24,24 @@ def viterbi(Ps0, transition, emission, time_steps, values, observed):
     # Find states in reverse
     s[time_steps - 1] = np.argmax(pi[time_steps - 1])
 
-    for k in range(time_steps - 1, 1, -1):
+    for k in range(time_steps - 1, 0, -1):
+        print(k)
         s[k - 1] = phi[k, int(s[k])]
     return s
 
-Ps0 = 0.4
+'''
+transition: P(s_t | s_{t-1})
+            s_t     0     1
+s_{t-1} 0
+s_{t-1} 1
+
+emission: P(o_t | s_t)
+        o_t     0     1
+s_t 0
+s_t 1
+'''
+
+Ps0 = np.array([0.6, 0.4])
 transition = np.array([[0.8, 0.2], [0.3, 0.7]])
 emission = np.array([[0.8, 0.2], [0.1, 0.9]])
 time_steps = 4
