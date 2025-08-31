@@ -1,2 +1,2 @@
-# viberti
-viberti algorithm
+# viterbi
+viterbi algorithm
